@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корпоративный таск-свайпер 2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <div class="progress-bar">
+        <div id="progress"></div>
+    </div>
+    <div id="intro">
+        <div class="intro-content">
+            <h1>Свайп-Гадание 2026 ❤️</h1>
+            <p>Привет! В честь 14 февраля мы решили проверить твою совместимость с офисной жизнью.</p>
+    
+            <div class="tutorial">
+                <div class="tutorial-card">
+                    <div class="hand">👆</div>
+                    <div class="swipe-hint hint-left">НЕТ</div>
+                    <div class="swipe-hint hint-right">ДА!</div>
+                </div>
+                <p><strong>Как играть:</strong> Свайпай карточки задач вправо, если это "твоё", и влево, если "бесит".</p>
+            </div>
+    
+            <button class="btn" onclick="startGame()">Поехали!</button>
+        </div>
+    </div>
+    <div id="game-container"></div>
+
+    <div id="results" class="hidden">
+        <div id="capture-area">
+            <h2 id="role-title">Твой статус</h2>
+            <p id="role-desc"></p>
+            <div class="screenshot-watermark">ЦАД 14 февраля 2026 ❤️</div>
+        </div>
+
+        <button class="btn btn-share" onclick="takeScreenshot()">📸 Сохранить результат</button>
+        <button class="btn btn-secondary" onclick="location.reload()">Еще раз</button>
+        <p class="hint">Скриншот сохранится в галерею. Скинь его в чат! 🍫</p>
+    </div>
+
+    <script src="js/cards.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
