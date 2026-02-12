@@ -20,7 +20,7 @@
     <div id="intro">
         <div class="intro-content">
             <h1>Свайп-Гадание 2026 ❤️</h1>
-            <p>Привет! В честь 14 февраля мы решили проверить твою совместимость с офисной жизнью.</p>
+            <p>Привет! В честь 14 февраля мы решили проверить Вашу совместимость с рабочей жизнью в ЦАД.</p>
     
             <div class="tutorial">
                 <div class="tutorial-card">
@@ -28,7 +28,7 @@
                     <div class="swipe-hint hint-left">НЕТ</div>
                     <div class="swipe-hint hint-right">ДА!</div>
                 </div>
-                <p><strong>Как играть:</strong> Свайпай карточки задач вправо, если это "твоё", и влево, если "бесит".</p>
+                <p><strong>Как играть:</strong><br> Свайпай карточки задач <b>вправо</b>,<br> если это <b>"твоё"</b>, и <b>влево</b>,<br> если не стали бы это делать.</p>
             </div>
     
             <button class="btn" onclick="startGame()">Поехали!</button>
@@ -48,8 +48,27 @@
         <p class="hint">Скриншот сохранится в галерею. Скинь его в чат! 🍫</p>
     </div>
 
+
     <script src="js/cards.js"></script>
+    <script src="js/categories.js"></script>
+    <script src="js/results.js"></script>
     <script src="js/script.js"></script>
+
+    <button class="stats-icon-btn" onclick="showStatsModal()">
+        <svg viewBox="0 0 24 24">
+            <path
+                d="M19,3H5C3.89,3 3,3.9 3,5V19C3,20.1 3.89,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M9,17H7V10H9V17M13,17H11V7H13V17M17,17H15V13H17V17Z" />
+        </svg>
+    </button>
+    
+    <div id="statsModal" class="modal" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h3 style="margin-top: 0; color: var(--primary);">Твои показатели:</h3>
+            <div id="modal-stats-list"></div>
+            <button class="btn" style="width: 100%; margin-top: 15px;"
+                onclick="document.getElementById('statsModal').style.display='none'">Закрыть</button>
+        </div>
+    </div>
 </body>
 
 </html>
