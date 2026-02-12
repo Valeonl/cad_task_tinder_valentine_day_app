@@ -49,7 +49,7 @@ h2,
     position: relative;
     /* Используем vmin, чтобы контейнер подстраивался под меньшую сторону экрана */
     width: 85vw;
-    height: 70vmin;
+    height: 90vmin;
     max-width: 400px;
     max-height: 550px;
     margin: auto;
@@ -80,6 +80,17 @@ h2,
     /* Шрифт теперь динамический: не даст тексту "взорвать" карту */
     font-size: clamp(1rem, 4.5vw, 1.4rem);
     font-weight: bold;
+opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    /* Начальное положение: чуть ниже и меньше */
+    transition: opacity 0.7s ease-out, transform 0.4s ease-out;
+    /* Плавность появления */
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    /* Конечное положение: на своем месте */
 }
 
 /* Фикс для экрана результатов (второй скриншот) */
@@ -477,57 +488,63 @@ h2,
     padding: 0;
 }
 
-/* Контейнер для всплывающих очков */
+/* Контейнер для всплывающих очков — теперь привязан к верху экрана */
 .floating-score {
-    position: absolute;
-    top: 50%;
+    position: fixed;
+    /* Фиксируем относительно экрана, а не карточки */
+    top: 40px;
+    /* Появляются сразу под прогресс-баром */
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     pointer-events: none;
-    /* Чтобы надписи не мешали свайпам */
-    z-index: 1000;
-    font-weight: bold;
-    font-size: 1.5rem;
+    z-index: 2000;
+    /* Выше всех элементов */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 2px;
     width: 100%;
     text-align: center;
 }
 
-/* Анимация всплытия */
+/* Анимация: теперь очки "всплывают" еще выше или плавно гаснут на месте */
 .score-item {
-    animation: floatUp 3s ease-out forwards;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-weight: 900;
+    font-size: 1.8rem;
+    /* Сделали чуть крупнее и жирнее */
+    animation: floatTop 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    font-family: 'Comfortaa', cursive, sans-serif;
 }
 
-@keyframes floatUp {
+@keyframes floatTop {
     0% {
-        transform: translateY(0);
+        transform: translateY(20px);
+        /* Начинают чуть ниже */
         opacity: 0;
     }
 
     20% {
         opacity: 1;
+        transform: translateY(0);
     }
 
     100% {
-        transform: translateY(-100px);
+        transform: translateY(-40px);
+        /* Улетают вверх к краю экрана */
         opacity: 0;
     }
 }
 
 .score-plus {
     color: #2ecc71;
+    /* Яркий зеленый */
 }
 
-/* Зеленый */
 .score-minus {
-    color: #e74c3c;
+    color: #ff5252;
+    /* Сочный красный */
 }
-
-/* Красный */
 
 
 /* Контейнер для логотипа */

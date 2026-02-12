@@ -75,6 +75,11 @@ function renderCard() {
     
     container.appendChild(card);
 
+    // Добавь эти строки сразу после appendChild:
+    requestAnimationFrame(() => {
+        card.classList.add('visible');
+    });
+    
     // Инициализируем Hammer
     const hamtime = new Hammer(card);
 
