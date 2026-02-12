@@ -54,14 +54,14 @@ h2,
     height: 100%;
     background: white;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(204, 163, 163, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 30px;
     box-sizing: border-box;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.4rem;
     font-weight: bold;
     cursor: grab;
     user-select: none;
@@ -131,7 +131,7 @@ h2,
 .btn-share {
     background: var(--accent);
     /* Зеленая кнопка для скриншота */
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 }
 
 .btn-secondary {
@@ -146,16 +146,16 @@ h2,
     z-index: 1;
     pointer-events: none;
     /* Это заставит переноситься даже сверхдлинные слова */
-        word-break: break-word;
+        word-break: normal;
         overflow-wrap: anywhere;
     
         /* Убери фиксированную высоту, если она есть, чтобы текст расширял карточку */
         height: auto;
     
         /* Опционально: автоматические дефисы (работает не во всех браузерах) */
-        hyphens: auto;
+        /*hyphens: auto;
         -webkit-hyphens: auto;
-
+        */
         padding-bottom: 70px !important;
 }
 
@@ -281,7 +281,7 @@ h2,
 /* Кнопка статистики под карточкой */
 .stats-icon-btn {
     position: fixed;
-    bottom: 40px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 70px;

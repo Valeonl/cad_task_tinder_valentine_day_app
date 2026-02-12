@@ -386,7 +386,7 @@ const CardsBank = [
     "onSwipeLeft": { "efficiency": 1, "it": -1 }
   },
   {
-    "text": "Удалить старые версии файлов 'Отчет_финал_2_исправлено_ВАЖНО.xlsx'",
+    "text": "Удалить старые версии файлов 'Отчет_v2_исправлено_ВАЖНО.xlsx'",
     "onSwipeRight": { "archive": 2, "efficiency": 1, "it": 1 },
     "onSwipeLeft": { "chaos": 2, "archive": -1 }
   },
