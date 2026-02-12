@@ -131,6 +131,11 @@ h2,
 .card-text {
     z-index: 1;
     pointer-events: none;
+    word-wrap: break-word;
+        /* Разрывает длинные слова, если они не лезут */
+        overflow-wrap: break-word;
+        /* Современный стандарт того же самого */
+        hyphens: auto;
 }
 
 /* Общие стили для надписей-штампов (теперь по центру) */
