@@ -12,6 +12,39 @@ Object.keys(CategoriesData).forEach(key => {
     userStats[key] = 0;
 });
 
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function playTone(freq, type, duration) {
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.type = type; // 'sine', 'square', 'sawtooth', 'triangle'
+    oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    
+    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // Громкость 10%
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + duration);
+}
+
+// Звуковые пресетs
+const sounds = {
+    swipeRight: () => {
+        playTone(500, 'sine', 0.2);
+        setTimeout(() => playTone(800, 'sine', 0.2), 50); // Победный "дзынь"
+    },
+    swipeLeft: () => {
+        playTone(400, 'triangle', 0.3); // Более глухой звук для отказа
+    },
+    tick: () => {
+        playTone(150, 'sine', 0.05); // Легкий щелчок при движении
+    }
+};
+
 const container = document.getElementById('game-container');
 const resultsScreen = document.getElementById('results');
 
@@ -30,120 +63,123 @@ function renderCard() {
     const card = document.createElement('div');
     card.className = 'card';
     
-    // Добавляем HTML для надписей внутрь карточки
     card.innerHTML = `
+        <div class="card-number">${currentCardIndex + 1}</div>
         <div class="card-label label-love">ДА!</div>
         <div class="card-label label-nope">Нет!</div>
         <div class="card-text">${data.text}</div>
+        <div class="card-logo">
+            <img src="cad_logo.svg" alt="Logo">
+        </div>
     `;
     
     container.appendChild(card);
+
+    // Инициализируем Hammer
     const hamtime = new Hammer(card);
 
-    // Находим эти надписи, чтобы менять их opacity
+    // Блокируем системный скролл браузера, чтобы карточка не "залипала"
+    hamtime.get('pan').set({ direction: Hammer.DIRECTION_ALL, threshold: 0 });
+
     const loveLabel = card.querySelector('.label-love');
     const nopeLabel = card.querySelector('.label-nope');
 
-    // Внутри функции renderCard, в обработчике hamtime.on('pan', ...)
-hamtime.on('pan', (ev) => {
-    card.style.transition = 'none';
-    const x = ev.deltaX;
-    const y = ev.deltaY;
-    const rotate = x / 15;
-    
-    card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
-    
-    // Новая логика появления центральных надписей:
-    if (x > 30) { 
-        // Постепенно проявляем ДА! при движении вправо
-        loveLabel.style.opacity = Math.min(x / 100, 1); 
-        nopeLabel.style.opacity = 0; 
-    } else if (x < -30) { 
-        // Постепенно проявляем НЕТ! при движении влево
-        nopeLabel.style.opacity = Math.min(-x / 100, 1); 
-        loveLabel.style.opacity = 0; 
-    } else {
-        loveLabel.style.opacity = 0;
-        nopeLabel.style.opacity = 0;
-    }
-});
-
     hamtime.on('pan', (ev) => {
-    card.style.transition = 'none';
-    let x = ev.deltaX;
-    const y = ev.deltaY;
+        // Отменяем стандартное поведение браузера
+        if (ev.pointerType === 'touch') {
+            ev.srcEvent.preventDefault();
+        }
 
-    // --- ЛОГИКА БЛОКИРОВКИ ---
-    if (data.forceSide === 'right' && x < 0) x = x / 5; // Сопротивление при попытке уйти влево
-    if (data.forceSide === 'left' && x > 0) x = x / 5;  // Сопротивление при попытке уйти вправо
-    // -------------------------
+        card.style.transition = 'none';
+        let x = ev.deltaX;
+        let y = ev.deltaY;
 
-    const rotate = x / 15;
-    card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
-    
-    // Появление надписей (учитываем блокировку)
-    if (x > 30 && data.forceSide !== 'left') { 
-        loveLabel.style.opacity = Math.min(x / 100, 1); 
-        nopeLabel.style.opacity = 0; 
-    } else if (x < -30 && data.forceSide !== 'right') { 
-        nopeLabel.style.opacity = Math.min(-x / 100, 1); 
-        loveLabel.style.opacity = 0; 
-    } else {
-        loveLabel.style.opacity = 0;
-        nopeLabel.style.opacity = 0;
-    }
-});
+        // Логика блокировки (сопротивление), если свайп в эту сторону запрещен
+        if (data.forceSide === 'right' && x < 0) x = x / 5; 
+        if (data.forceSide === 'left' && x > 0) x = x / 5; 
 
-hamtime.on('panend', (ev) => {
-    card.style.transition = '0.4s';
-    
-    // Проверяем, достаточно ли далеко ушла карта и разрешено ли это направление
-    const canSwipeRight = (ev.deltaX > 120 && data.forceSide !== 'left');
-    const canSwipeLeft = (ev.deltaX < -120 && data.forceSide !== 'right');
+        const rotate = x / 15;
+        card.style.transform = `translate(${x}px, ${y}px) rotate(${rotate}deg)`;
+        
+        // Появление надписей (с учетом блокировки)
+        if (x > 30 && data.forceSide !== 'left') { 
+            loveLabel.style.opacity = Math.min(x / 100, 1); 
+            nopeLabel.style.opacity = 0; 
+        } else if (x < -30 && data.forceSide !== 'right') { 
+            nopeLabel.style.opacity = Math.min(-x / 100, 1); 
+            loveLabel.style.opacity = 0; 
+        } else {
+            loveLabel.style.opacity = 0;
+            nopeLabel.style.opacity = 0;
+        }
+    });
 
-    if (canSwipeRight) {
-        swipeCard(card, 'right', data);
-    } else if (canSwipeLeft) {
-        swipeCard(card, 'left', data);
-    } else {
-        // Возвращаем на место, если свайп запрещен или слаб
-        card.style.transform = '';
-        loveLabel.style.opacity = 0;
-        nopeLabel.style.opacity = 0;
-    }
-});
+    hamtime.on('panend', (ev) => {
+        card.style.transition = '0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        
+        // Проверка: достаточно ли далеко ушла карта и разрешено ли направление
+        const canSwipeRight = (ev.deltaX > 120 && data.forceSide !== 'left');
+        const canSwipeLeft = (ev.deltaX < -120 && data.forceSide !== 'right');
+
+        if (canSwipeRight) {
+            swipeCard(card, 'right', data);
+        } else if (canSwipeLeft) {
+            swipeCard(card, 'left', data);
+        } else {
+            // Возврат в центр
+            card.style.transform = '';
+            loveLabel.style.opacity = 0;
+            nopeLabel.style.opacity = 0;
+        }
+    });
 }
 
 function swipeCard(card, side, data) {
-    const outX = side === 'right' ? 1000 : -1000;
-    card.style.transform = `translate(${outX}px, 0) rotate(${outX/20}deg)`;
+    // 1. Динамический расчет вылета (ширина экрана + запас)
+    // Это лечит скроллы: карточка улетает ровно настолько, сколько нужно
+    const flyDistance = window.innerWidth + 150;
+    const outX = side === 'right' ? flyDistance : -flyDistance;
     
-    // 1. Считаем количество направлений
+    // Принудительно убираем transition, чтобы анимация была под контролем
+    card.style.transition = 'transform 0.4s ease-out, opacity 0.3s';
+    card.style.transform = `translate(${outX}px, 0) rotate(${outX / 15}deg)`;
+    card.style.opacity = '0'; // Плавно гасим карточку при вылете
+    
+    // 2. Звуки
+    if (typeof sounds !== 'undefined') {
+        if (side === 'right') sounds.swipeRight();
+        else sounds.swipeLeft();
+    }
+
+    // 3. Статистика свайпов
     if (side === 'right') userStats.rightCount++;
     else userStats.leftCount++;
     
-    // 2. Добавляем баллы характеристик
+    // 4. Баллы и плавающие надписи
     const scores = side === 'right' ? data.onSwipeRight : data.onSwipeLeft;
+    if (typeof showFloatingScores === 'function') {
+        showFloatingScores(scores);
+    }
+
     for (let key in scores) { 
         if (userStats.hasOwnProperty(key)) {
             userStats[key] += scores[key]; 
         }
     }
 
-    // --- НОВОЕ: Проверка на наличие "Личных достижений" (notes) ---
-    // Если в данных карточки есть объект notes и в нем есть фраза для текущей стороны (left/right)
+    // 5. Достижения (Notes)
     if (data.notes && data.notes[side]) {
-        // Добавляем эту фразу в наш накопительный массив в статистике
         userStats.collectedNotes.push(data.notes[side]);
     }
-    // -------------------------------------------------------------
 
     currentCardIndex++;
+
+    // 6. Очистка и запуск следующей
     setTimeout(() => {
         card.remove();
         updateProgress();
         renderCard();
-    }, 200);
+    }, 250); // Увеличил время, чтобы анимация успела доиграть
 }
 
 function updateProgress() {
@@ -324,7 +360,7 @@ function takeScreenshot() {
     btn.disabled = true;
 
     html2canvas(element, {
-        backgroundColor: "#fce4ec", // Цвет фона на скриншоте
+        backgroundColor: "#e3f2fd", // Цвет фона на скриншоте
         scale: 2, // Повышаем качество (Retina)
     }).then(canvas => {
         // Создаем ссылку для скачивания
@@ -341,4 +377,30 @@ function takeScreenshot() {
         btn.innerText = "📸 Сохранить результат";
         btn.disabled = false;
     });
+}
+
+function showFloatingScores(stats) {
+    // Создаем временный контейнер
+    const floatContainer = document.createElement('div');
+    floatContainer.className = 'floating-score';
+    document.body.appendChild(floatContainer);
+
+    // Проходим по всем измененным статам в карточке
+    Object.entries(stats).forEach(([key, value]) => {
+        if (value === 0) return; // Ноли не показываем
+
+        const categoryName = CategoriesData[key] || key;
+        const scoreEl = document.createElement('div');
+        
+        const sign = value > 0 ? '+' : '';
+        scoreEl.className = `score-item ${value > 0 ? 'score-plus' : 'score-minus'}`;
+        scoreEl.innerText = `${categoryName} ${sign}${value}`;
+        
+        floatContainer.appendChild(scoreEl);
+    });
+
+    // Удаляем контейнер через секунду, когда анимация закончится
+    setTimeout(() => {
+        floatContainer.remove();
+    }, 3000);
 }

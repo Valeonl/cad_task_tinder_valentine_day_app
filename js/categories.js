@@ -2,7 +2,7 @@ const CategoriesData = {
     "it": "IT-инженер",
     "economy": "Экономист",
     "jurist": "Юрист",
-    "arcive": "Архивист",
+    "archive": "Архивист",
     "methodology": "Методист",
     "soul": "Душа отдела",
     "bureaucracy": "Бумагодел",

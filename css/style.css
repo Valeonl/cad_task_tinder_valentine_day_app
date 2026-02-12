@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
 
 :root {
-    --primary: #ff4b6e;
-    --bg: #fce4ec;
+    --primary: #2196f3;
+    --bg: #e3f2fd;
+    --accent: #0288d1;
 }
 
 body {
@@ -15,6 +16,17 @@ body {
     justify-content: center;
     height: 100vh;
     overflow: hidden;
+}
+
+html,
+body {
+    /* Запрещаем скролл на уровне всей страницы */
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    /* Отключаем стандартные жесты браузера (например, "тянуть для обновления") */
+    touch-action: none;
 }
 
 /* А вот для заголовков, кнопок и интро используем круглый Comfortaa */
@@ -32,6 +44,8 @@ h2,
     width: 90vw;
     max-width: 400px;
     height: 60vh;
+    overflow: visible;
+        touch-action: none;
 }
 
 .card {
@@ -47,7 +61,7 @@ h2,
     padding: 30px;
     box-sizing: border-box;
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 2rem;
     font-weight: bold;
     cursor: grab;
     user-select: none;
@@ -81,7 +95,7 @@ h2,
     position: fixed;
     top: 0;
     width: 100%;
-    height: 6px;
+    height: 30px;
     background: rgba(0, 0, 0, 0.05);
 }
 
@@ -115,7 +129,7 @@ h2,
 }
 
 .btn-share {
-    background: #4CAF50 !important;
+    background: var(--accent);
     /* Зеленая кнопка для скриншота */
     margin-bottom: 10px;
 }
@@ -131,11 +145,18 @@ h2,
 .card-text {
     z-index: 1;
     pointer-events: none;
-    word-wrap: break-word;
-        /* Разрывает длинные слова, если они не лезут */
-        overflow-wrap: break-word;
-        /* Современный стандарт того же самого */
+    /* Это заставит переноситься даже сверхдлинные слова */
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    
+        /* Убери фиксированную высоту, если она есть, чтобы текст расширял карточку */
+        height: auto;
+    
+        /* Опционально: автоматические дефисы (работает не во всех браузерах) */
         hyphens: auto;
+        -webkit-hyphens: auto;
+
+        padding-bottom: 70px !important;
 }
 
 /* Общие стили для надписей-штампов (теперь по центру) */
@@ -260,11 +281,11 @@ h2,
 /* Кнопка статистики под карточкой */
 .stats-icon-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     background: white;
     border-radius: 50%;
     display: flex;
@@ -380,4 +401,112 @@ h2,
     font-size: 0.9em;
     list-style: none;
     padding: 0;
+}
+
+/* Контейнер для всплывающих очков */
+.floating-score {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    /* Чтобы надписи не мешали свайпам */
+    z-index: 1000;
+    font-weight: bold;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Анимация всплытия */
+.score-item {
+    animation: floatUp 3s ease-out forwards;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}
+
+.score-plus {
+    color: #2ecc71;
+}
+
+/* Зеленый */
+.score-minus {
+    color: #e74c3c;
+}
+
+/* Красный */
+
+
+/* Контейнер для логотипа */
+.card-logo {
+    position: absolute;
+    bottom: 20px;
+    /* Отступ 20px от низа карточки */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Центровка ровно по середине */
+    width: 80px;
+    /* Ширина логотипа (подбери под свой) */
+    opacity: 0.4;
+    /* Сделаем чуть прозрачным, чтобы не перебивал текст */
+    pointer-events: none;
+    /* Важно: чтобы клики проходили сквозь лого на карту */
+    z-index: 1;
+}
+
+.card-logo img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.card-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    /* Переместили влево -> вправо */
+    width: 50px;
+    /* Было 30px, стало 90px (в 3 раза больше) */
+    height: 50px;
+    /* Было 30px, стало 90px */
+
+    background-color: var(--bg);
+    border: 4px solid var(--primary);
+    /* Немного утолщили рамку для масштаба */
+    color: var(--primary);
+
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    font-size: 1.0em;
+    /* Увеличили шрифт, чтобы он соответствовал размеру круга */
+
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Сделали тень чуть глубже */
+
+    /* Чтобы номер не перекрывал текст, можно добавить легкую прозрачность */
+    opacity: 0.8;
 }

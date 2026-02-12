@@ -4,7 +4,7 @@ const CardsBank = [
   {
     "text": "Написать парсер на Python для Airflow до обеда",
     "onSwipeRight": { "it": 2, "soul": -2, "bureaucracy": -2 },
-    "onSwipeLeft": { "it": -1, "methodology": 1, "soul": 0 }
+    "onSwipeLeft": { "it": -1, "economy": 1, "soul": 0 }
   },
   {
     "text": "Настроить CI/CD пайплайн для нового сервиса",
@@ -18,7 +18,7 @@ const CardsBank = [
   },
   {
     "text": "Разобрать все заявки на регистрацию пользователей в KeyCloak за 15 минут",
-    "onSwipeRight": { "it": 1, "soul": 0, "bureaucracy": 0 },
+    "onSwipeRight": { "it": 1, "soul": 0, "analytics": 1 },
     "onSwipeLeft": { "it": -1, "soul": -1 }
   },
   {
@@ -39,7 +39,7 @@ const CardsBank = [
 
   // ========== БЮРОКРАТИЯ ==========
   {
-    "text": "Листы самооценки! Заполняем все прямо сейчас",
+    "text": "Сдать вовремя лист самооценки!",
     "onSwipeRight": { "bureaucracy": 1, "methodology": 0 },
     "onSwipeLeft": { "bureaucracy": -1, "soul": 1, "it": 0 },
     "forceInclude": true,
@@ -75,7 +75,7 @@ const CardsBank = [
   {
     "text": "Обновить документацию в Gramax у какой-то старой инструкции",
     "onSwipeRight": { "methodology": 1, "bureaucracy": 1, "soul": -1, "analytics": 1},
-    "onSwipeLeft": { "it": 1, "soul": 0 }
+    "onSwipeLeft": { "it": -1, "chaos": 1 }
   },
   {
     "text": "Провести аудит безопасности системы",
@@ -107,7 +107,7 @@ const CardsBank = [
   {
     "text": "Попытаться обыграть кого-то из отдела МТО в настольный теннис",
     "onSwipeRight": { "soul": 1, "bureaucracy": 0 },
-    "onSwipeLeft": { "soul": -1, "it": 1 }
+    "onSwipeLeft": { "soul": -1, "efficiency": 1 }
   },
   {
     "text": "Подняться на лифте, а не по лестнице",
@@ -154,20 +154,20 @@ const CardsBank = [
   },
   {
     "text": "Устроить утреннее кофепитие с коллегами",
-    "onSwipeRight": { "soul": 1, "bureaucracy": 0, "methodology": 0 },
-    "onSwipeLeft": { "soul": 0, "it": 1, "bureaucracy": 0 }
+    "onSwipeRight": { "soul": 1, "team_work": 1, "methodology": 0 },
+    "onSwipeLeft": { "team_work": -1, "it": 0, "bureaucracy": 0 }
   },
 
   // ========== АРХИВ ==========
   {
     "text": "Выполнить нумерацию 250 листов вручную",
-    "onSwipeRight": { "arcive": 1, "it": -1, "methodology": 0, "bureaucracy": -1 },
-    "onSwipeLeft": { "arcive": -1, "soul": 0 },
+    "onSwipeRight": { "archive": 1, "it": -1, "methodology": 0, "bureaucracy": -1 },
+    "onSwipeLeft": { "archive": -1, "soul": 0 },
   },
   {
     "text": "Найти справку о стаже за 1995 год за 5 минут",
-    "onSwipeRight": { "arcive": 1, "soul": 1, "methodology": 0 },
-    "onSwipeLeft": { "arcive": -1, "soul": -1, "it": 0 }
+    "onSwipeRight": { "archive": 1, "soul": 1, "methodology": 0 },
+    "onSwipeLeft": { "archive": -1, "soul": -1, "it": 0 }
   },
 
   // ========== ЮРИСТЫ ==========
@@ -188,7 +188,7 @@ const CardsBank = [
   },
   {
     "text": "Провести мотивирующий тренинг личности для коллег",
-    "onSwipeRight": { "bureaucracy": 0, "soul": 0, "methodology": 1 },
+    "onSwipeRight": { "bureaucracy": 0, "team_work": 1, "methodology": 1 },
     "onSwipeLeft": { "bureaucracy": 0, "methodology": -1, "it": 0 }
   },
   {
@@ -201,7 +201,7 @@ const CardsBank = [
   {
     "text": "Помочь Виктору Валерьевичу разгрузить картриджи и бумагу",
     "onSwipeRight": { "mto": 1, "bureaucracy": 0, "team_work": 1  },
-    "onSwipeLeft": { "mto": -1, "it": 1 }
+    "onSwipeLeft": { "mto": -1, "team_work": -1 }
   },
   {
     "text": "Закупить всем канцелярию",
@@ -223,7 +223,7 @@ const CardsBank = [
   {
     "text": "Так погрузиться в работу, что в конце дня пьёшь утренний холодный чай/кофе",
     "onSwipeRight": { "economy": 1, "bureaucracy": 0, "soul": -1 },
-    "onSwipeLeft": { "economy": -1, "chaos": 1 },
+    "onSwipeLeft": { "economy": -1, "chaos": 1, "efficiency": 2},
     "notes": {
         "right": "Обязательно добавьте в свой вишлист на ДР термокружку!",
         "left": "Во время работы Вы не расстаётесь с чаем/кофе"
@@ -277,8 +277,8 @@ const CardsBank = [
   // --- IT / АНАЛИТИКА ---
   {
     "text": "Оставить несохранённый открытый Excel файл и уйти на обед",
-    "onSwipeRight": { "it": 1, "soul": 1, "team_work": 1 },
-    "onSwipeLeft": { "it": 0, "soul": -1, "bureaucracy": 1 }
+    "onSwipeRight": { "chaos": 1, "soul": -1, "team_work": -1 },
+    "onSwipeLeft": { "it": 0, "team_work": 1, "bureaucracy": 1 }
   },
   {
     "text": "Найти дубликаты в базе данных из 100 000 строк",
@@ -342,7 +342,7 @@ const CardsBank = [
   },
   {
     "text": "Зайти в кабинет к начальству 'просто спросить' и остаться на 2 часа",
-    "onSwipeRight": { "bureaucracy": 1, "soul": -1, "efficiency": -1 },
+    "onSwipeRight": { "bureaucracy": 1, "soul": 0, "efficiency": -1 },
     "onSwipeLeft": { "efficiency": 1}
   },
   {
@@ -376,7 +376,7 @@ const CardsBank = [
     "onSwipeLeft": { "it": 0, "methodology": -1, "chaos": 1}
   },
   {
-    "text": "Приудмать смешную шутку в Общем чате",
+    "text": "Придумать смешную шутку в Общем чате",
     "onSwipeRight": { "soul": 2, "team_work": 1, "methodology": 0 },
     "onSwipeLeft": { "efficiency": 1, "soul": -1 }
   },
@@ -420,6 +420,11 @@ const CardsBank = [
     "text": "Автоматизировать всё, что можно!",
     "onSwipeRight": { "it": 1, "chaos": -1, "efficiency": -2 },
     "onSwipeLeft": {"it": -1, "bureaucracy": 1}
+  },
+  {
+    "text": "Пропустить совещание с начальством!",
+    "onSwipeRight": { "chaos": 2, "efficiency": -1 },
+    "onSwipeLeft": {"chaos": -1, "bureaucracy": 1}
   }
 ];
 
