@@ -20,13 +20,19 @@ body {
 
 html,
 body {
-    /* Запрещаем скролл на уровне всей страницы */
-    overflow: hidden;
-    position: fixed;
+    margin: 0;
+    padding: 0;
     width: 100%;
     height: 100%;
-    /* Отключаем стандартные жесты браузера (например, "тянуть для обновления") */
+    overflow: hidden;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg);
     touch-action: none;
+    /* Убирает лишние отступы на iOS */
+    -webkit-text-size-adjust: 100%;
 }
 
 /* А вот для заголовков, кнопок и интро используем круглый Comfortaa */
@@ -41,30 +47,98 @@ h2,
 
 #game-container {
     position: relative;
-    width: 90vw;
+    /* Используем vmin, чтобы контейнер подстраивался под меньшую сторону экрана */
+    width: 85vw;
+    height: 70vmin;
     max-width: 400px;
-    height: 60vh;
-    overflow: visible;
-        touch-action: none;
+    max-height: 550px;
+    margin: auto;
+    /* Гарантирует, что контейнер не "уползет" */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
 }
 
+/* Адаптивные отступы для карточки */
 .card {
     position: absolute;
     width: 100%;
     height: 100%;
     background: white;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(204, 163, 163, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     display: flex;
+    flex-direction: column;
+    /* Позволяет управлять распределением элементов */
     align-items: center;
     justify-content: center;
-    padding: 30px;
+    padding: 20px;
+    /* Уменьшили отступ */
     box-sizing: border-box;
     text-align: center;
-    font-size: 1.4rem;
+    /* Шрифт теперь динамический: не даст тексту "взорвать" карту */
+    font-size: clamp(1rem, 4.5vw, 1.4rem);
     font-weight: bold;
-    cursor: grab;
-    user-select: none;
+}
+
+/* Фикс для экрана результатов (второй скриншот) */
+#results {
+    background: white;
+    padding: 20px;
+    /* Уменьшили с 40px */
+    border-radius: 20px;
+    text-align: center;
+    width: 90%;
+    max-width: 350px;
+    max-height: 90vh;
+    /* Не дает результатам уходить за экран */
+    overflow-y: auto;
+    /* Если текста слишком много, появится внутренний скролл */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Специальные правки для очень маленьких экранов (iPhone SE и подобные) */
+@media (max-height: 670px) {
+    #game-container {
+        height: 65vh;
+        /* Уменьшаем высоту контейнера игры */
+        margin-top: 40px;
+        /* Оставляем место под прогресс-бар */
+    }
+
+    .card-text {
+        padding-bottom: 50px !important;
+        /* Уменьшаем место под лого */
+        line-height: 1.2;
+    }
+
+    .card-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Ужимаем элементы на экране результатов */
+    .intro-content,
+    #results {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+        margin: 10px 0;
+    }
+
+    .stats-icon-btn {
+        width: 50px;
+        /* Уменьшили кнопку статистики */
+        height: 50px;
+        bottom: 10px;
+    }
 }
 
 .hidden {
@@ -509,4 +583,44 @@ h2,
 
     /* Чтобы номер не перекрывал текст, можно добавить легкую прозрачность */
     opacity: 0.8;
+}
+.result-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px;
+    margin-top: 15px;
+}
+
+/* Новая маленькая кнопка статистики в ряду */
+.stats-btn-inline {
+    width: 50px;
+    height: 45px;
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.stats-btn-inline svg {
+    fill: var(--primary);
+    width: 20px;
+}
+
+/* Кнопки "Сохранить" и "Еще раз" */
+.result-actions .btn {
+    flex: 2;
+    /* Эти кнопки будут шире, чем иконка статистики */
+    margin-top: 0;
+    padding: 12px 5px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* Скрываем плавающую кнопку, когда мы на экране результатов */
+#results:not(.hidden)~.stats-icon-btn {
+    display: none !important;
 }
