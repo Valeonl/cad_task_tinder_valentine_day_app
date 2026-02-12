@@ -313,3 +313,66 @@ h2,
     padding: 10px 0;
     border-bottom: 1px solid #eee;
 }
+
+/* Стили для подвигов в статистике */
+.achievements-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    padding: 10px !important;
+    margin-bottom: 10px;
+}
+
+.achievements-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.achievements-header small {
+    font-size: 0.7em;
+    opacity: 0.6;
+    text-transform: uppercase;
+}
+
+.achievements-list {
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: #444;
+    line-height: 1.4;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 8px;
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Красивое оформление достижений на финальном экране */
+.personal-notes-block {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fffafa;
+    border-radius: 15px;
+    border: 1px dashed #ff8a80;
+    text-align: left;
+}
+
+.achievements-box {
+    margin-top: 20px;
+    border-top: 1px dashed #ff4081;
+    padding-top: 10px;
+}
+
+#notes-list {
+    text-align: left;
+    font-size: 0.9em;
+    list-style: none;
+    padding: 0;
+}

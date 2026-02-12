@@ -1,5 +1,16 @@
 let currentCardIndex = 0;
-let userStats = { teamwork: 0, analytics: 0, efficiency: 0, chaos: 0, it: 0, methodology: 0, soul: 0, bureaucracy: 0 };
+
+// Автоматическое создание объекта статистики на основе категорий
+let userStats = {
+    rightCount: 0,
+    leftCount: 0,
+    collectedNotes: [] // Сюда будем складывать фразы
+};
+
+// Проходим по ключам из CategoriesData и создаем их в userStats со значением 0
+Object.keys(CategoriesData).forEach(key => {
+    userStats[key] = 0;
+});
 
 const container = document.getElementById('game-container');
 const resultsScreen = document.getElementById('results');
@@ -107,8 +118,25 @@ function swipeCard(card, side, data) {
     const outX = side === 'right' ? 1000 : -1000;
     card.style.transform = `translate(${outX}px, 0) rotate(${outX/20}deg)`;
     
+    // 1. Считаем количество направлений
+    if (side === 'right') userStats.rightCount++;
+    else userStats.leftCount++;
+    
+    // 2. Добавляем баллы характеристик
     const scores = side === 'right' ? data.onSwipeRight : data.onSwipeLeft;
-    for (let key in scores) { userStats[key] += scores[key]; }
+    for (let key in scores) { 
+        if (userStats.hasOwnProperty(key)) {
+            userStats[key] += scores[key]; 
+        }
+    }
+
+    // --- НОВОЕ: Проверка на наличие "Личных достижений" (notes) ---
+    // Если в данных карточки есть объект notes и в нем есть фраза для текущей стороны (left/right)
+    if (data.notes && data.notes[side]) {
+        // Добавляем эту фразу в наш накопительный массив в статистике
+        userStats.collectedNotes.push(data.notes[side]);
+    }
+    // -------------------------------------------------------------
 
     currentCardIndex++;
     setTimeout(() => {
@@ -123,73 +151,167 @@ function updateProgress() {
 }
 
 function showResults() {
-    // 1. Скрываем игровое поле и показываем экран результатов
     container.classList.add('hidden');
     resultsScreen.classList.remove('hidden');
 
-    // 2. Определяем основные категории для финала
-    const mainTraits = ['it', 'methodology', 'soul', 'bureaucracy'];
+    // 1. ПРОВЕРКА НА КРАЙНОСТИ
+    if (userStats.rightCount === CardsData.length) {
+        document.getElementById('role-title').innerText = "Человек-Да";
+        document.getElementById('role-desc').innerHTML = ResultsData.extremes.allYes[0];
+        renderNotes(); 
+        return;
+    }
+    if (userStats.leftCount === CardsData.length) {
+        document.getElementById('role-title').innerText = "Великий Отрицатель";
+        document.getElementById('role-desc').innerHTML = ResultsData.extremes.allNo[0];
+        renderNotes();
+        return;
+    }
+
+    // 2. ПОДГОТОВКА ДАННЫХ
+    const allStats = Object.keys(userStats)
+        .filter(key => CategoriesData[key] && typeof userStats[key] === 'number')
+        .map(key => ({
+            id: key,
+            name: CategoriesData[key],
+            score: userStats[key]
+        }));
+
+    // Лидеры (те, кто в плюсе)
+    const positiveScores = allStats.filter(s => s.score > 0).sort((a, b) => b.score - a.score);
+
+    if (positiveScores.length === 0) {
+        document.getElementById('role-title').innerText = "Мастер Нейтралитета";
+        document.getElementById('role-desc').innerText = "Вы так аккуратно обходили все острые углы, что система не смогла приклеить вам ярлык.";
+        renderNotes();
+        return;
+    }
+
+    const leader = positiveScores[0];
+    const runnerUp = positiveScores[1];
     
-    // Находим лидера и аутсайдера среди этих категорий
-    const topTrait = mainTraits.reduce((a, b) => userStats[a] > userStats[b] ? a : b);
-    const lowTrait = mainTraits.reduce((a, b) => userStats[a] < userStats[b] ? a : b);
+    let finalTitle = "";
+    let finalDesc = "";
 
-    // 3. Берем данные из ResultsData (файл results.js)
-    const resultInfo = ResultsData.roles[topTrait];
-    let finalDesc = resultInfo.desc;
-
-    // 4. Логика "Слабого звена": если в какой-то категории меньше 5 очков
-    if (userStats[lowTrait] < 5) {
-        const noteKey = "low" + lowTrait.charAt(0).toUpperCase() + lowTrait.slice(1);
-        if (ResultsData.specialNotes[noteKey]) {
-            finalDesc += " " + ResultsData.specialNotes[noteKey]; // Добавляем ироничную заметку
-        }
-    }
-
-    // 5. Логика интенсивности (зависит от количества очков лидера)
-    const totalScore = userStats[topTrait];
-    if (totalScore > 40) {
-        finalDesc += " " + ResultsData.intensity.high;
-    } else if (totalScore > 20) {
-        finalDesc += " " + ResultsData.intensity.medium;
+    // 3. ЗАГОЛОВОК
+    if (runnerUp && (leader.score - runnerUp.score) < 4) {
+        finalTitle = `${leader.name}-${runnerUp.name.toLowerCase()}`;
+        finalDesc = `В Вас гармонично уживаются ${leader.name} и ${runnerUp.name}. <br><br>`;
     } else {
-        finalDesc += " " + ResultsData.intensity.low;
+        finalTitle = leader.name;
     }
 
-    // 6. Выводим результат на экран
-    // Используем CategoriesData для красивого названия роли на русском
-    const russianCategory = CategoriesData[topTrait] || topTrait;
-    document.getElementById('role-title').innerText = `${russianCategory}: ${resultInfo.title}`;
-    document.getElementById('role-desc').innerText = finalDesc;
+    // 4. ФРАЗА ЛИДЕРА
+    const leaderPhrases = ResultsData.traits[leader.id];
+    if (leaderPhrases) {
+        const bestPhrase = leaderPhrases
+            .filter(p => p.min !== undefined && p.min !== -99)
+            .sort((a, b) => b.min - a.min)
+            .find(p => leader.score >= p.min);
+        
+        if (bestPhrase) finalDesc += bestPhrase.text + "<br><br>";
+    }
+
+    // 5. ЛОГИКА "КСТАТИ" (Только 2 самых худших показателя)
+    // Сортируем все минусы от самого плохого к менее плохому
+    const negativeScores = allStats
+        .filter(s => s.score < 0)
+        .sort((a, b) => a.score - b.score) // Сначала самые большие минусы (-5, потом -3...)
+        .slice(0, 2); // Берем только ПЕРВЫЕ ДВА
+
+    if (negativeScores.length > 0) {
+        finalDesc += `<div style="margin-top: 10px; border-top: 1px dashed rgba(0,0,0,0.1); padding-top: 5px;"></div>`;
+        
+        negativeScores.forEach(item => {
+            const traitConfig = ResultsData.traits[item.id];
+            if (traitConfig) {
+                const lowConfig = traitConfig.find(p => p.min === -99);
+                if (lowConfig && lowConfig.lowText) {
+                    finalDesc += `<div class="low-score-note" style="font-size: 0.85em; opacity: 0.7; margin-bottom: 4px;">
+                        💡 <i>Кстати: ${lowConfig.lowText}</i>
+                    </div>`;
+                }
+            }
+        });
+    }
+
+    // ВЫВОД
+    document.getElementById('role-title').innerText = finalTitle;
+    document.getElementById('role-desc').innerHTML = finalDesc;
+
+    renderNotes();
+}
+
+// Функция для отрисовки подвигов (Notes)
+function renderNotes() {
+    const notesList = document.getElementById('notes-list');
+    if (!notesList) return;
+    
+    notesList.innerHTML = ''; 
+    if (userStats.collectedNotes && userStats.collectedNotes.length > 0) {
+        const uniqueNotes = [...new Set(userStats.collectedNotes)];
+        uniqueNotes.forEach(note => {
+            const li = document.createElement('li');
+            li.style.listStyle = "none";
+            li.style.marginBottom = "5px";
+            li.innerHTML = "🏆 " + note;
+            notesList.appendChild(li);
+        });
+    }
 }
 
 function showStatsModal() {
     const list = document.getElementById('modal-stats-list');
     list.innerHTML = ''; 
 
-    // Проходим по всем характеристикам в статистике
     for (let key in userStats) {
-        // Показываем только те, где значение не 0
+        // Пропускаем технические счетчики свайпов, выведем их отдельно если нужно
+        if (key === 'rightCount' || key === 'leftCount') continue;
+
+        if (key === 'collectedNotes') {
+            if (userStats[key].length > 0) {
+                const notesRow = document.createElement('div');
+                notesRow.className = 'stat-row achievements-row';
+                const uniqueNotes = [...new Set(userStats[key])];
+                
+                notesRow.innerHTML = `
+                    <div class="achievements-header" onclick="toggleAchievements(this)">
+                        <span>🏆 Ваши подвиги (${uniqueNotes.length})</span>
+                        <small>нажать, чтобы увидеть</small>
+                    </div>
+                    <div class="achievements-list hidden">
+                        ${uniqueNotes.map(n => `• ${n}`).join('<br>')}
+                    </div>
+                `;
+                list.appendChild(notesRow);
+            }
+            continue;
+        }
+
+        // Обычные показатели
         if (userStats[key] !== 0) {
             const row = document.createElement('div');
             row.className = 'stat-row';
-            
-            // Берем перевод из CategoriesData (создайте этот файл или объект)
             const label = CategoriesData[key] || key;
             const val = userStats[key];
             const displayVal = val > 0 ? `+${val}` : val;
-
             row.innerHTML = `<span>${label}</span><strong>${displayVal}</strong>`;
             list.appendChild(row);
         }
     }
     
-    // Если статистики еще нет
     if (list.innerHTML === '') {
-        list.innerHTML = '<p style="color: #999; text-align: center;">Сначала сделай пару свайпов!</p>';
+        list.innerHTML = '<p style="color: #999; text-align: center;">Сначала сделайте пару свайпов!</p>';
     }
 
     document.getElementById('statsModal').style.display = 'flex';
+}
+
+// Вспомогательная функция для открытия списка
+function toggleAchievements(el) {
+    const list = el.nextElementSibling;
+    list.classList.toggle('hidden');
+    el.querySelector('small').innerText = list.classList.contains('hidden') ? 'нажми, чтобы увидеть' : 'свернуть';
 }
 
 

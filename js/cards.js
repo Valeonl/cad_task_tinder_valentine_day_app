@@ -1,161 +1,467 @@
 // Банк карточек (исходные данные)
 const CardsBank = [
+  // ========== IT-ЗАДАЧИ ==========
   {
     "text": "Написать парсер на Python для Airflow до обеда",
-    "onSwipeRight": { "it": 15, "bureaucracy": -5, "soul": 5 },
-    "onSwipeLeft": { "it": -10, "methodology": 10, "soul": 5 }
+    "onSwipeRight": { "it": 2, "soul": -2, "bureaucracy": -2 },
+    "onSwipeLeft": { "it": -1, "methodology": 1, "soul": 0 }
   },
   {
-    "text": "Листы самооценки! Заполняем все прямо сейчас",
-    "onSwipeRight": { "bureaucracy": 20, "soul": -10, "methodology": 5 },
-    "onSwipeLeft": { "bureaucracy": -15, "soul": 15, "it": 5 },
-    "forceInclude": true, // обязательно будет в выборке
-    "forceSide": "right",
+    "text": "Настроить CI/CD пайплайн для нового сервиса",
+    "onSwipeRight": { "it": 2, "methodology": 0, "soul": 0 },
+    "onSwipeLeft": { "it": -1, "bureaucracy": 0 }
   },
   {
-    "text": "Подготовить «Ручейки» по всем садам и школам города",
-    "onSwipeRight": { "methodology": 20, "it": -5, "soul": 5 },
-    "onSwipeLeft": { "methodology": -10, "it": 10, "soul": 5 }
+    "text": "Оптимизировать запросы к базе данных",
+    "onSwipeRight": { "it": 1, "methodology": 0, "soul": 0, "analytics": 1},
+    "onSwipeLeft": { "it": -1, "bureaucracy": 0, "analytics": -1 }
   },
   {
-    "text": "Уйти на удаленку, но забыть настроить VPN",
-    "onSwipeRight": { "soul": 15, "it": -10, "bureaucracy": -5 },
-    "onSwipeLeft": { "it": 10, "soul": -5, "bureaucracy": 10 }
+    "text": "Разобрать все заявки на регистрацию пользователей в KeyCloak за 15 минут",
+    "onSwipeRight": { "it": 1, "soul": 0, "bureaucracy": 0 },
+    "onSwipeLeft": { "it": -1, "soul": -1 }
+  },
+  {
+    "text": "Написать скрипт для отслеживания появления пирогов/пицц в столовой",
+    "onSwipeRight": { "it": 1, "bureaucracy": 0},
+    "onSwipeLeft": { "it": -1, "methodology": 1, "soul": 0 },
   },
   {
     "text": "Перевести процесс на Loginom",
-    "onSwipeRight": { "it": 15, "bureaucracy": 10, "methodology": 5 },
-    "onSwipeLeft": { "it": -10, "soul": 10 },
-    "forceInclude": true
+    "onSwipeRight": { "it": 1, "bureaucracy": -1, "methodology": 0, "analytics": 2 },
+    "onSwipeLeft": { "it": -1, "soul": 0, "analytics": -1 },
+    "notes": {
+        "right": "Ещё Вы амбасадор Loginom!",
+        "left": "Чтоб Вы знали - в Loginom данные считаются быстрее, чем в Excel"
+    }
+  },
+  
+
+  // ========== БЮРОКРАТИЯ ==========
+  {
+    "text": "Листы самооценки! Заполняем все прямо сейчас",
+    "onSwipeRight": { "bureaucracy": 1, "methodology": 0 },
+    "onSwipeLeft": { "bureaucracy": -1, "soul": 1, "it": 0 },
+    "forceInclude": true,
+    "forceSide": "right"
   },
   {
-    "text": "Попытаться обыграть кого-то из отдела МТО в настольный тенис",
-    "onSwipeRight": { "soul": 15, "bureaucracy": 10 },
-    "onSwipeLeft": { "soul": -5, "it": 15 }
+    "text": "Заполнить отчёт за день в Битрикс24",
+    "onSwipeRight": { "bureaucracy": 1, "methodology": 1, "soul": -1 },
+    "onSwipeLeft": { "soul": 1, "it": 0 }
   },
   {
-    "text": "Выполнить нумерацию 250 листов вручную",
-    "onSwipeRight": { "bureaucracy": 20, "it": -10, "methodology": 5 },
-    "onSwipeLeft": { "bureaucracy": -15, "soul": 10 },
-    "forceInclude": true
+    "text": "Собрать данные по гос.заданию с 52 учреждений за неделю",
+    "onSwipeRight": { "methodology": 1, "bureaucracy": 1, "soul": -1 },
+    "onSwipeLeft": { "analytics": -1, "it": 0 }
   },
   {
-    "text": "Провести правовую оценку чего-либо",
-    "onSwipeRight": { "methodology": 15, "it": 5, "bureaucracy": 10 },
-    "onSwipeLeft": { "soul": 10, "methodology": -5 },
-    "forceInclude": true // обязательно будет в выборке
+    "text": "Перепроверить контрактацию 5 раз за день",
+    "onSwipeRight": { "bureaucracy": 1, "soul": -1 },
+    "onSwipeLeft": { "bureaucracy": -1}
+  },
+  {
+    "text": "Провести длительное совещание по проекту",
+    "onSwipeRight": { "bureaucracy": 1, "team_work": 1, "it": 0 },
+    "onSwipeLeft": { "bureaucracy": -1, "team_work": -1, "methodology": 0 }
+  },
+
+  // ========== МЕТОДОЛОГИЯ ==========
+  {
+    "text": "Подготовить «Ручейки» по всем садам и школам города",
+    "onSwipeRight": { "methodology": 1, "analytics": 1, "soul": 0 },
+    "onSwipeLeft": { "methodology": -1, "it": 0, "soul": 0 }
+  },
+  {
+    "text": "Обновить документацию в Gramax у какой-то старой инструкции",
+    "onSwipeRight": { "methodology": 1, "bureaucracy": 1, "soul": -1, "analytics": 1},
+    "onSwipeLeft": { "it": 1, "soul": 0 }
+  },
+  {
+    "text": "Провести аудит безопасности системы",
+    "onSwipeRight": { "methodology": 0, "it": 1, "bureaucracy": 1 },
+    "onSwipeLeft": { "it": -1, "soul": 0 }
+  },
+  {
+    "text": "Выдать пропуск новому сотруднику",
+    "onSwipeRight": { "methodology": 0, "it": 1, "bureaucracy": 1 },
+    "onSwipeLeft": { "it": -1, "soul": 0, "bureaucracy": -1}
+  },
+  {
+    "text": "Проверить вручную сайты образовательных учреждений на соответствие нормам",
+    "onSwipeRight": { "methodology": 1, "soul": 0, "bureaucracy": 0 },
+    "onSwipeLeft": { "methodology": -1 }
+  },
+  {
+    "text": "Написать регламент на наименование папок на сетевом диске, который никто не будет читать",
+    "onSwipeRight": { "methodology": 1, "bureaucracy": 1, "soul": -1 },
+    "onSwipeLeft": { "methodology": -1, "it": 1, "soul": 0 }
+  },
+
+  // ========== ДУША И КОМФОРТ ==========
+  {
+    "text": "Уйти на удаленку, но забыть настроить VPN",
+    "onSwipeRight": { "it": -1, "bureaucracy": 0 },
+    "onSwipeLeft": { "it": 1, "bureaucracy": 1 }
+  },
+  {
+    "text": "Попытаться обыграть кого-то из отдела МТО в настольный теннис",
+    "onSwipeRight": { "soul": 1, "bureaucracy": 0 },
+    "onSwipeLeft": { "soul": -1, "it": 1 }
+  },
+  {
+    "text": "Подняться на лифте, а не по лестнице",
+    "onSwipeRight": { "efficiency": 1 },
+    "onSwipeLeft": { "efficiency": -1, "it": -1 }
+  },
+  {
+    "text": "Купить новую кофемашину в отдел",
+    "onSwipeRight": { "soul": 2, "bureaucracy": -1 },
+    "onSwipeLeft": { "soul": -1, "team_work": -1},
+    "notes": {
+        "left": "Из-за Вашего решения отдел остался без кофемашины",
+        "right": "Благодаря Вам кофе льётся рекой"
+    }
+  },
+  {
+    "text": "Корпоратив в честь праздника 14 февраля",
+    "onSwipeRight": { "soul": 1, "bureaucracy": 0 },
+    "onSwipeLeft": { "team_work": -1, "bureaucracy": 0 },
+    "notes": {
+        "left": "Вы обидели Святого Валентина!",
+        "right": "Корпоративу быть - числа эдак 27!"
+    }
   },
   {
     "text": "Взять отпуск только по будням, без учёта выходных",
     "forceSide": "left",
-    "forceInclude": true,
-    "onSwipeRight": { "soul": -20 },
-    "onSwipeLeft": { "soul": 20 },
-  },
-  // Добавляем новые карточки для разнообразия в банке
-  {
-    "text": "Обновить документацию в Gramax у какой-то старой инструкции",
-    "onSwipeRight": { "methodology": 15, "bureaucracy": 10, "soul": -5 },
-    "onSwipeLeft": { "it": 10, "soul": 5 }
+    "onSwipeRight": { "bureaucracy": -1 },
+    "onSwipeLeft": { "bureaucracy": 1 },
+    "notes": {
+        "left": "Не жалеете отдел КДПО, зато как отдыхаете!",
+        "right": "КДПО ставит Вам лайк за грамотную расстановку отпуска."
+    }
   },
   {
-    "text": "Настроить CI/CD пайплайн для нового сервиса",
-    "onSwipeRight": { "it": 20, "methodology": 10, "soul": 5 },
-    "onSwipeLeft": { "it": -10, "bureaucracy": 5 }
+    "text": "Сделать сводную таблицу в Excel и 20 минут ждать пока она обновится",
+    "onSwipeRight": { "bureaucracy": 0, "analytics": 1, "economy": -1 },
+    "onSwipeLeft": { "bureaucracy": 1 },
   },
   {
-    "text": "Собрать данные по гос.заданию с 52 учреждений за неделю",
-    "onSwipeRight": { "methodology": 15, "bureaucracy": 10, "soul": -5 },
-    "onSwipeLeft": { "soul": 10, "it": 5 }
+    "text": "Принести пирожки в отдел и поделиться ими с коллегами",
+    "onSwipeRight": { "team_work": 1, "it": 0, "bureaucracy": 0 },
+    "onSwipeLeft": { "team_work": -1, "it": 0, "bureaucracy": 0 }
   },
   {
-    "text": "Оптимизировать запросы к базе данных",
-    "onSwipeRight": { "it": 20, "methodology": 5, "soul": 10 },
-    "onSwipeLeft": { "it": -10, "bureaucracy": 5 }
+    "text": "Устроить утреннее кофепитие с коллегами",
+    "onSwipeRight": { "soul": 1, "bureaucracy": 0, "methodology": 0 },
+    "onSwipeLeft": { "soul": 0, "it": 1, "bureaucracy": 0 }
+  },
+
+  // ========== АРХИВ ==========
+  {
+    "text": "Выполнить нумерацию 250 листов вручную",
+    "onSwipeRight": { "arcive": 1, "it": -1, "methodology": 0, "bureaucracy": -1 },
+    "onSwipeLeft": { "arcive": -1, "soul": 0 },
   },
   {
-    "text": "Подготовить отчет для руководства за квартал",
-    "onSwipeRight": { "bureaucracy": 20, "methodology": 10, "soul": -10 },
-    "onSwipeLeft": { "soul": 15, "it": 5 }
+    "text": "Найти справку о стаже за 1995 год за 5 минут",
+    "onSwipeRight": { "arcive": 1, "soul": 1, "methodology": 0 },
+    "onSwipeLeft": { "arcive": -1, "soul": -1, "it": 0 }
+  },
+
+  // ========== ЮРИСТЫ ==========
+  {
+    "text": "Провести правовую оценку чего-либо",
+    "onSwipeRight": { "jurist": 2, "it": 0, "bureaucracy": 1 },
+    "onSwipeLeft": { "jurist": -1 },
   },
   {
-    "text": "Купить новую кофемашину в отдел",
-    "forceSide": "right",
-    "onSwipeRight": { "soul": 30, "bureaucracy": -10 },
-    "onSwipeLeft": {}
+    "text": "Быть ведущим на мероприятии в ЦАД",
+    "onSwipeRight": { "team_work": 1, "jurist": 1, "it": 0, },
+    "onSwipeLeft": { "soul": -1, "jurist": -1 },
   },
   {
-    "text": "Написать скрипт для мониторинга пирогов/пицц в столовой",
-    "onSwipeRight": { "it": 20, "bureaucracy": 5, "soul": 5 },
-    "onSwipeLeft": { "it": -10, "methodology": 10 },
-    "forceInclude": true,
+    "text": "Выложить новую статью на Портал ЦАД (portal.gkuoa.ru)",
+    "onSwipeRight": { "bureaucracy": 1, "soul": 1, "methodology": 1 },
+    "onSwipeLeft": { "bureaucracy": -1, "methodology": -1, "it": 0 }
   },
   {
-    "text": "Принять участие в профориентации от ЦАД",
-    "onSwipeRight": { "it": 20, "soul": 15, "methodology": 5 },
-    "onSwipeLeft": { "bureaucracy": 10, "soul": -5 }
+    "text": "Провести мотивирующий тренинг личности для коллег",
+    "onSwipeRight": { "bureaucracy": 0, "soul": 0, "methodology": 1 },
+    "onSwipeLeft": { "bureaucracy": 0, "methodology": -1, "it": 0 }
   },
   {
-    "text": "Разобрать все заявки на регистрацию пользователей в KeyClock за 15 минут",
-    "onSwipeRight": { "it": 10, "soul": 10, "bureaucracy": 5 },
-    "onSwipeLeft": { "it": -15, "soul": -5 }
+    "text": "Записать видеоподкаст для коллег",
+    "onSwipeRight": { "bureaucracy": 0, "soul": 1, "methodology": 1 },
+    "onSwipeLeft": { "bureaucracy": 0, "methodology": -1, "it": 0 }
+  },
+
+  // ========== МТО / ХОЗЯЙСТВО ==========
+  {
+    "text": "Помочь Виктору Валерьевичу разгрузить картриджи и бумагу",
+    "onSwipeRight": { "mto": 1, "bureaucracy": 0, "team_work": 1  },
+    "onSwipeLeft": { "mto": -1, "it": 1 }
   },
   {
-    "text": "Провести аудит безопасности системы",
-    "onSwipeRight": { "methodology": 20, "it": 15, "bureaucracy": 10 },
-    "onSwipeLeft": { "it": -10, "soul": 5 }
+    "text": "Закупить всем канцелярию",
+    "onSwipeRight": { "economy": 1, "bureaucracy": 1, "mto": 1, "team_work": 1 },
+    "onSwipeLeft": { "economy": -1, "mto": -1  }
+  },
+
+  // ========== ЭКОНОМИКА ==========
+  {
+    "text": "Перепроверить контрактацию 5 раз за день",
+    "onSwipeRight": { "economy": 1, "bureaucracy": 1, "soul": -1, "analytics": 1 },
+    "onSwipeLeft": { "economy": -1}
   },
   {
-    "text": "Корпоратив в честь праздника 14 февраля",
-    "forceSide": "right",
-    "forceInclude": true,
-    "onSwipeRight": { "soul": 40, "bureaucracy": -15 },
-    "onSwipeLeft": {}
+    "text": "Заполнять вручную информацию по образовательным учреждениям",
+    "onSwipeRight": { "economy": 1, "bureaucracy": 0, "soul": -1 },
+    "onSwipeLeft": { "economy": -1, "chaos": 1 }
+  },
+  {
+    "text": "Так погрузиться в работу, что в конце дня пьёшь утренний холодный чай/кофе",
+    "onSwipeRight": { "economy": 1, "bureaucracy": 0, "soul": -1 },
+    "onSwipeLeft": { "economy": -1, "chaos": 1 },
+    "notes": {
+        "right": "Обязательно добавьте в свой вишлист на ДР термокружку!",
+        "left": "Во время работы Вы не расстаётесь с чаем/кофе"
+    }
+
+  },
+  {
+    "text": "Скинуть коллегам смешной мем в чат во время трудной задачи",
+    "onSwipeRight": { "economy": 1, "bureaucracy": 0, "soul": 1, "team_work": 1 },
+    "onSwipeLeft": { "economy": -1, "soul": -1, "team_work": -1 },
+    "notes": {
+        "right": "Ваши мемы поддерживают в трудную минуту",
+        "left": "Вам жалко скинуть мем..."
+    }
+  },
+  {
+    "text": "Пообедать вместе с коллегами",
+    "onSwipeRight": { "economy": 0, "soul": 1, "bureaucracy": 0, "team_work": 1},
+    "onSwipeLeft": { "soul": -2},
+    "notes": {
+        "right": "Все сплетни обсуждаете за обедами с коллегами ?",
+        "left": "Вы предпочли обед в гордом одиночестве("
+    }
+  },
+
+  // ========== ХАОС / ВНЕЗАПНО ==========
+  {
+    "text": "Сломать прод сборку Appsmith за 10 минут до сбора данных",
+    "onSwipeRight": { "it": 1, "soul": -2, "chaos": 2 },
+    "onSwipeLeft": { "it": -1, "methodology": 2, "soul": -1 }
+  },
+  {
+    "text": "Случайно почистил таблицу в боевой базе LsFusion",
+    "onSwipeRight": { "it": 1, "chaos": 2, "soul": -2, "analytics": -1 },
+    "onSwipeLeft": { "it": 1, "methodology": 2, "bureaucracy": 1 },
+    "notes": {
+        "right": "Весь сектор РИС теперь знает Вас в лицо (в плохом смысле).",
+        "left": "Ваша выдержка спасла LsFusion от катастрофы. "
+    }
+  },
+  {
+    "text": "Отключать электричество в пятницу без бэкапа",
+    "onSwipeRight": { "it": 1, "soul": -1, "chaos": 2, },
+    "onSwipeLeft": { "it": 1, "soul": 0, "chaos": -1 }
+  },
+  {
+    "text": "Склеить порванную опись дел 1950-х годов",
+    "onSwipeRight": { "archive": 2, "methodology": 1, "soul": 0 },
+    "onSwipeLeft": { "archive": -1, "chaos": 1 }
+  },
+  // --- IT / АНАЛИТИКА ---
+  {
+    "text": "Оставить несохранённый открытый Excel файл и уйти на обед",
+    "onSwipeRight": { "it": 1, "soul": 1, "team_work": 1 },
+    "onSwipeLeft": { "it": 0, "soul": -1, "bureaucracy": 1 }
+  },
+  {
+    "text": "Найти дубликаты в базе данных из 100 000 строк",
+    "onSwipeRight": { "analytics": 2, "it": 1, "efficiency": 1 },
+    "onSwipeLeft": { "analytics": -1, "chaos": 1 }
+  },
+  {
+    "text": "Попробовать запустить Python-скрипт сканера сетевого диска на Гравитоне",
+    "onSwipeRight": { "it": 2, "chaos": 1, "soul": -1 },
+    "onSwipeLeft": { "it": -1, "bureaucracy": 1 }
+  },
+  // --- ЮРИСТЫ / МЕТОДОЛОГИЯ ---
+  {
+    "text": "Доказать проверке, что та запятая в регламенте стоит на законных основаниях",
+    "onSwipeRight": { "jurist": 2, "bureaucracy": 1, "methodology": 1 },
+    "onSwipeLeft": { "jurist": -1, "bureaucracy": -1 }
+  },
+  // --- ДУША / КОМАНДА ---
+  {
+    "text": "Тайком оставить шоколадку на столе грустного коллеги",
+    "onSwipeRight": { "soul": 1, "team_work": 2 },
+    "onSwipeLeft": { "soul": -1, "team_work": -1 },
+    "notes": {
+        "right": "Вы — тайный Валентин нашего офиса!",
+        "left": "Шоколадка осталась у Вас. Ну, тоже неплохо."
+    }
+  },
+  {
+    "text": "Организовать сбор на подарок коллеге за 5 минут до конца рабочего дня",
+    "onSwipeRight": { "team_work": 1, "soul": 1, "mto": 1 },
+    "onSwipeLeft": { "team_work": -1, "soul": 0 }
+  },
+  {
+    "text": "Принести из дома кактус и поставить его рядом с сервером 'на удачу'",
+    "onSwipeRight": { "soul": 1, "chaos": 1, "it": -1 },
+    "onSwipeLeft": { "it": 1, "soul": 0 }
+  },
+  {
+    "text": "Найти на складе 5 запасных мышек, когда все говорят, что их нет",
+    "onSwipeRight": { "mto": 1, "it": 1, "efficiency": 1 },
+    "onSwipeLeft": { "mto": -1, "it": -1 }
+  },
+  {
+    "text": "Объединить 8 Марта и 23 Февраля в один праздник",
+    "onSwipeRight": { "economy": 2, "soul": 1, "team_work": 1 },
+    "onSwipeLeft": { "economy": -1, "soul": -1 },
+    "notes": {
+        "right": "Вы мыслите как истинный руководитель",
+        "left": "Сделаем вид, что Вы не спайпнули в 'Нет'"
+    }
+  },
+  {
+    "text": "Работать в наушниках, чтобы никто не отвлекал от важного отчета",
+    "onSwipeRight": { "efficiency": 2, "analytics": 1, "team_work": -1 },
+    "onSwipeLeft": { "team_work": 1, "efficiency": -1 }
+  },
+  {
+    "text": "Попробовать обновить сервер прямо посреди рабочего дня",
+    "onSwipeRight": { "chaos": 3, "it": 1, "efficiency": -2 },
+    "onSwipeLeft": { "it": 1, "bureaucracy": 2 }
+  },
+  {
+    "text": "Зайти в кабинет к начальству 'просто спросить' и остаться на 2 часа",
+    "onSwipeRight": { "bureaucracy": 1, "soul": -1, "efficiency": -1 },
+    "onSwipeLeft": { "efficiency": 1}
+  },
+  {
+    "text": "Пересобрать дашборд в Superset, потому что 'цифры кажутся некрасивыми'",
+    "onSwipeRight": { "analytics": 2, "it": 1, "efficiency": 1 },
+    "onSwipeLeft": { "analytics": -1, "chaos": 1 }
+  },
+  {
+    "text": "Написать формулу в Excel длиной в три строки и забыть закрыть скобку",
+    "onSwipeRight": { "analytics": 1, "chaos": 1, "efficiency": -1 },
+    "onSwipeLeft": { "it": 1, "efficiency": 1 }
+  },
+  {
+    "text": "Перенести все данные из Яндекс.Таблиц в Excel, чтобы 'было надежнее'",
+    "onSwipeRight": { "bureaucracy": 1, "analytics": 1, "it": -1 },
+    "onSwipeLeft": { "it": 2, "efficiency": 1 }
+  },
+  {
+    "text": "Создать идеальную визуализацию в Superset, которую никто не откроет",
+    "onSwipeRight": { "analytics": 2, "it": 1, "soul": -1 },
+    "onSwipeLeft": { "efficiency": 1, "analytics": -1 }
+  },
+  {
+    "text": "Искать ответ на сложный вопрос в КонсультантПлюс дольше двух часов",
+    "onSwipeRight": { "jurist": 2, "methodology": 1, "efficiency": -1 },
+    "onSwipeLeft": { "efficiency": 2, "jurist": -1 }
+  },
+  {
+    "text": "Обновить ссылки в Gramax, которые вели на несуществующие папки",
+    "onSwipeRight": { "methodology": 1, "chaos": -1, "it": 0 },
+    "onSwipeLeft": { "it": 0, "methodology": -1, "chaos": 1}
+  },
+  {
+    "text": "Приудмать смешную шутку в Общем чате",
+    "onSwipeRight": { "soul": 2, "team_work": 1, "methodology": 0 },
+    "onSwipeLeft": { "efficiency": 1, "soul": -1 }
+  },
+  {
+    "text": "Предложить автоматизировать процесс, который делается раз в год",
+    "onSwipeRight": { "it": 1, "efficiency": -1, "bureaucracy": 1 },
+    "onSwipeLeft": { "efficiency": 1, "it": -1 }
+  },
+  {
+    "text": "Удалить старые версии файлов 'Отчет_финал_2_исправлено_ВАЖНО.xlsx'",
+    "onSwipeRight": { "archive": 2, "efficiency": 1, "it": 1 },
+    "onSwipeLeft": { "chaos": 2, "archive": -1 }
+  },
+  {
+    "text": "Объяснить коллеге, почему его чек из пятёрочки напротив нельзя провести как 'представительские расходы'",
+    "onSwipeRight": { "economy": 1, "bureaucracy": 2, "jurist": 1 },
+    "onSwipeLeft": {"economy": -1 }
+  },
+  {
+    "text": "Сделать ER-диаграмму всей БД LsFusion",
+    "onSwipeRight": { "soul": 1, "chaos": -2, "it": 2, "analytics": 2 },
+    "onSwipeLeft": { "chaos": 1},
+    "forceSide": "left"
+  },
+  {
+    "text": "Загрузить в Gramax инструкцию по использованию Gramax",
+    "onSwipeRight": { "methodology": 1, "bureaucracy": 1, "it": 1 },
+    "onSwipeLeft": { "chaos": 1, "methodology": -1 }
+  },
+  {
+    "text": "Заказать на 23 февраля столько пиццы, чтобы хватило и на 8 марта",
+    "onSwipeRight": { "economy": 1, "soul": 1, "mto": 1 },
+    "onSwipeLeft": { "economy": -1, "mto": -1 }
+  },
+  {
+    "text": "Предложить переименовать все папки на сетевом диске согласно алфавиту и цвету радуги",
+    "onSwipeRight": { "archive": 1, "bureaucracy": 1, "chaos": 1 },
+    "onSwipeLeft": {"archive": -1 }
+  },
+  {
+    "text": "Автоматизировать всё, что можно!",
+    "onSwipeRight": { "it": 1, "chaos": -1, "efficiency": -2 },
+    "onSwipeLeft": {"it": -1, "bureaucracy": 1}
   }
 ];
 
 // Функция для получения случайных N карточек с обязательным включением forceInclude
-const getRandomCards = (bank, count = 5) => {
-  // Отделяем карточки, которые обязательно должны быть в выборке
-  const forceCards = bank.filter(card => card.forceInclude === true);
+const getRandomCards = (bank, count = 10) => {
+    // Вспомогательная функция для честного перемешивания
+    const shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
+
+    // 1. Отделяем обязательные
+    const forceCards = bank.filter(card => card.forceInclude === true);
+    // 2. Отделяем остальные
+    const otherCards = bank.filter(card => !card.forceInclude);
+    
+    let selected;
+
+    if (forceCards.length >= count) {
+        // Если обязательных больше или столько же, сколько нужно в итоге
+        selected = shuffle([...forceCards]).slice(0, count);
+    } else {
+        // Если нужно добрать случайными
+        const remainingCount = count - forceCards.length;
+        const shuffledOthers = shuffle([...otherCards]);
+        const selectedOthers = shuffledOthers.slice(0, remainingCount);
+        selected = [...forceCards, ...selectedOthers];
+    }
   
-  // Остальные карточки (без forceInclude)
-  const otherCards = bank.filter(card => !card.forceInclude);
+    // 3. Финальное перемешивание (теперь точно случайное)
+    const shuffledFinal = shuffle(selected);
   
-  // Проверяем: если обязательных карточек больше чем count, берём только первые count
-  if (forceCards.length >= count) {
-    const selectedForce = forceCards.slice(0, count);
-    return selectedForce.map((card, index) => ({
-      id: index + 1,
-      ...card
+    // 4. Добавляем ID
+    return shuffledFinal.map((card, index) => ({
+        id: index + 1,
+        ...card
     }));
-  }
-  
-  // Сколько ещё нужно добавить случайных карточек
-  const remainingCount = count - forceCards.length;
-  
-  // Перемешиваем остальные карточки
-  const shuffledOthers = [...otherCards].sort(() => Math.random() - 0.5);
-  
-  // Берём нужное количество из перемешанных остальных
-  const selectedOthers = shuffledOthers.slice(0, remainingCount);
-  
-  // Объединяем обязательные и случайные карточки
-  const selected = [...forceCards, ...selectedOthers];
-  
-  // Перемешиваем финальный массив, чтобы обязательные карточки не всегда были первыми
-  const shuffledFinal = selected.sort(() => Math.random() - 0.5);
-  
-  // Добавляем ID для каждой карточки (от 1 до count)
-  return shuffledFinal.map((card, index) => ({
-    id: index + 1,
-    ...card
-  }));
 };
 
 // Использование:
-// Получаем 10 случайных карточек из банка, но карточки с forceInclude: true всегда в выборке
 const CardsData = getRandomCards(CardsBank, 10);
-
-// Проверяем результат
 console.log(CardsData);
