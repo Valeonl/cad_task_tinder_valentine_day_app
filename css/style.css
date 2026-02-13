@@ -641,3 +641,11 @@ opacity: 0;
 #results:not(.hidden)~.stats-icon-btn {
     display: none !important;
 }
+
+/* Блокируем любое расширение body после манипуляций */
+body.taking-screenshot {
+    overflow: hidden !important;
+    height: 100% !important;
+    width: 100% !important;
+    position: fixed !important;
+}

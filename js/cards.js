@@ -8,7 +8,7 @@ const CardsBank = [
   },
   {
     "text": "Настроить CI/CD пайплайн для нового сервиса",
-    "onSwipeRight": { "it": 2, "methodology": 0, "soul": 0 },
+    "onSwipeRight": { "it": 2, "methodology": 0, "soul": 0, "efficiency": 1 },
     "onSwipeLeft": { "it": -1, "bureaucracy": 0 }
   },
   {
@@ -53,7 +53,7 @@ const CardsBank = [
   {
     "text": "Собрать данные по гос.заданию с 52 учреждений за неделю",
     "onSwipeRight": { "methodology": 1, "bureaucracy": 1, "soul": -1 },
-    "onSwipeLeft": { "analytics": -1, "it": 0 }
+    "onSwipeLeft": { "analytics": -2, "economy": -1, "it": 0 }
   },
   {
     "text": "Перепроверить контрактацию 5 раз за день",
@@ -116,7 +116,7 @@ const CardsBank = [
   },
   {
     "text": "Купить новую кофемашину в отдел",
-    "onSwipeRight": { "soul": 2, "bureaucracy": -1 },
+    "onSwipeRight": { "soul": 2, "bureaucracy": -1, "mto": 2 },
     "onSwipeLeft": { "soul": -1, "team_work": -1},
     "notes": {
         "left": "Из-за Вашего решения отдел остался без кофемашины",
@@ -165,6 +165,21 @@ const CardsBank = [
     "onSwipeLeft": { "archive": -1, "soul": 0 },
   },
   {
+    "text": "Просканировать весь архив новым сканером",
+    "onSwipeRight": { "archive": 3, "it": 1, "methodology": 0, "bureaucracy": -1 },
+    "onSwipeLeft": { "archive": -1, "soul": 0 },
+  },
+  {
+    "text": "Отремонтировать фасад ЦАД",
+    "onSwipeRight": { "archive": 3, "it": 1, "methodology": 0, "bureaucracy": -1 },
+    "onSwipeLeft": { "archive": -1, "soul": 0 },
+    "forceSide": "left",
+    "notes": {
+        "left": "Вы решили - поэтому фасад теперь такой!",
+        "right": "Жулики"
+    }
+  },
+  {
     "text": "Найти справку о стаже за 1995 год за 5 минут",
     "onSwipeRight": { "archive": 1, "soul": 1, "methodology": 0 },
     "onSwipeLeft": { "archive": -1, "soul": -1, "it": 0 }
@@ -205,7 +220,7 @@ const CardsBank = [
   },
   {
     "text": "Закупить всем канцелярию",
-    "onSwipeRight": { "economy": 1, "bureaucracy": 1, "mto": 1, "team_work": 1 },
+    "onSwipeRight": { "economy": 1, "bureaucracy": 1, "mto": 3, "team_work": 1 },
     "onSwipeLeft": { "economy": -1, "mto": -1  }
   },
 
@@ -252,8 +267,8 @@ const CardsBank = [
   // ========== ХАОС / ВНЕЗАПНО ==========
   {
     "text": "Сломать прод сборку Appsmith за 10 минут до сбора данных",
-    "onSwipeRight": { "it": 1, "soul": -2, "chaos": 2 },
-    "onSwipeLeft": { "it": -1, "methodology": 2, "soul": -1 }
+    "onSwipeRight": { "it": -1, "soul": -1, "chaos": 2,  "analytics": -2},
+    "onSwipeLeft": { "it": 1, "methodology": 2 }
   },
   {
     "text": "Случайно почистил таблицу в боевой базе LsFusion",
@@ -358,7 +373,7 @@ const CardsBank = [
   {
     "text": "Перенести все данные из Яндекс.Таблиц в Excel, чтобы 'было надежнее'",
     "onSwipeRight": { "bureaucracy": 1, "analytics": 1, "it": -1 },
-    "onSwipeLeft": { "it": 2, "efficiency": 1 }
+    "onSwipeLeft": { "it": 2, "efficiency": 1, "analytics": -1 }
   },
   {
     "text": "Создать идеальную визуализацию в Superset, которую никто не откроет",
@@ -372,12 +387,12 @@ const CardsBank = [
   },
   {
     "text": "Обновить ссылки в Gramax, которые вели на несуществующие папки",
-    "onSwipeRight": { "methodology": 1, "chaos": -1, "it": 0 },
+    "onSwipeRight": { "methodology": 1, "chaos": -1, "it": 0, "efficiency": 1 },
     "onSwipeLeft": { "it": 0, "methodology": -1, "chaos": 1}
   },
   {
     "text": "Придумать смешную шутку в Общем чате",
-    "onSwipeRight": { "soul": 2, "team_work": 1, "methodology": 0 },
+    "onSwipeRight": { "soul": 2, "team_work": 1, "methodology": 0, "efficiency": -1 },
     "onSwipeLeft": { "efficiency": 1, "soul": -1 }
   },
   {

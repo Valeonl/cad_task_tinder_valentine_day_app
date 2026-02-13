@@ -360,13 +360,25 @@ function takeScreenshot() {
     const element = document.getElementById('capture-area');
     const btn = document.querySelector('.btn-share');
     
-    // Временно меняем текст кнопки
+    // Блокируем кнопку и меняем текст
     btn.innerText = "Генерация...";
     btn.disabled = true;
 
+    // ФИКС СКРОЛЛА: Сохраняем текущую позицию и принудительно фиксируем body
+    const scrollPos = window.scrollY;
+    document.body.style.overflow = 'hidden';
+
     html2canvas(element, {
-        backgroundColor: "#e3f2fd", // Цвет фона на скриншоте
-        scale: 2, // Повышаем качество (Retina)
+        backgroundColor: "#e3f2fd", 
+        scale: 2,
+        useCORS: true,         // Для корректной загрузки картинок/логотипов
+        allowTaint: true,
+        scrollX: 0,            // ВАЖНО: обнуляем сдвиги, чтобы не лезли белые полосы
+        scrollY: 0,
+        x: 0,
+        y: 0,
+        width: element.offsetWidth,   // Четко ограничиваем ширину
+        height: element.offsetHeight  // Четко ограничиваем высоту
     }).then(canvas => {
         // Создаем ссылку для скачивания
         const link = document.createElement('a');
@@ -374,13 +386,20 @@ function takeScreenshot() {
         link.href = canvas.toDataURL("image/png");
         link.click();
         
-        btn.innerText = "📸 Сохранить результат";
+        // Возвращаем всё как было
+        btn.innerText = "📸 Сохранить";
         btn.disabled = false;
+        
+        // Убираем блокировку скролла и возвращаемся в точку (на всякий случай)
+        document.body.style.overflow = '';
+        window.scrollTo(0, scrollPos);
+
     }).catch(err => {
         console.error("Ошибка скриншота:", err);
         alert("Не удалось создать скриншот. Попробуй сделать его вручную!");
-        btn.innerText = "📸 Сохранить результат";
+        btn.innerText = "📸 Сохранить";
         btn.disabled = false;
+        document.body.style.overflow = '';
     });
 }
 
